@@ -1,4 +1,4 @@
-# Session Breakout Scanner V2
+# breakout-session-scanner-v3
 
 Mobile-first Node/Express trading analyzer using Twelve Data.
 
