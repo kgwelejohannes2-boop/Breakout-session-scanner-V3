@@ -2,7 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 const app=express(), PORT=process.env.PORT||3000;
-app.use(express.json()); app.use(express.static("public"));
+app.use(express.json());
+app.use(express.static("."));
 const symbols={
  EURUSD:{td:"EUR/USD",type:"forex",economies:["Euro Area","United States"]},GBPUSD:{td:"GBP/USD",type:"forex",economies:["United Kingdom","United States"]},USDJPY:{td:"USD/JPY",type:"forex",economies:["United States","Japan"]},USDZAR:{td:"USD/ZAR",type:"forex",economies:["United States","South Africa"]},AUDUSD:{td:"AUD/USD",type:"forex",economies:["Australia","United States"]},USDCAD:{td:"USD/CAD",type:"forex",economies:["United States","Canada"]},
  XAUUSD:{td:"XAU/USD",type:"metal",economies:["United States"]},XAGUSD:{td:"XAG/USD",type:"metal",economies:["United States"]},
@@ -63,4 +64,6 @@ app.get("/api/scan",async(req,res)=>{try{
  const c=await candles(meta.td); if(c.length<50)throw Error("Not enough market data returned");
  const result=analyze(pair,meta,c); result.economic=await economicContext(pair,meta,result.date); result.reasons.push(`Preferred session: ${result.economic.bestSession} (${result.economic.source}).`); res.json(result);
 }catch(e){res.status(500).json({error:e.message})}});
-app.listen(PORT,()=>console.log(`Session Breakout Scanner V2: http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Session Breakout Scanner V3 running on port ${PORT}`);
+});
